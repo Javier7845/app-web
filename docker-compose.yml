@@ -17,7 +17,7 @@ services:
         ports: 
             - "8080:80"
         volumes:
-            - ./app-adm:/var/www/html
+            - ./pages:/var/www/html
         links:
             - "dbmysql:db"
         networks:
