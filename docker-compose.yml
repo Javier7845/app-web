@@ -1,0 +1,36 @@
+version: "3.1"
+services:
+    dbmysql:
+        image: mysql:5.7
+        ports: 
+            - "3306:3306"
+        environment:
+            MYSQL_DATABASE: users
+            MYSQL_ROOT_PASSWORD: 2022
+        volumes:
+            - ./database:/docker-entrypoint-initdb.d
+            - persistent:/var/lib/mysql
+        networks:
+            - default
+    apache-php:
+        image: unknown0078/apache-php:v1
+        ports: 
+            - "8080:80"
+        volumes:
+            - ./app-adm:/var/www/html
+        links:
+            - "dbmysql:db"
+        networks:
+            - default
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        ports:
+            - "8000:80"
+        environment:
+            MYSQL_USER: root
+            MYSQL_PASSWORD: 2022
+            MYSQL_ROOT_PASSWORD: 2022
+        links: 
+            - "dbmysql:db"
+volumes:
+    persistent:
